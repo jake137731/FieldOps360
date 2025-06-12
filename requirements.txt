@@ -1,0 +1,5 @@
+# File: ai-services/proposal-generator/requirements.txt
+fastapi
+openai
+uvicorn
+pydantic
