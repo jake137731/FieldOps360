@@ -1,0 +1,40 @@
+name: FieldOps360 CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [node, python]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        if: matrix.language == 'node'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Setup Python
+        if: matrix.language == 'python'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          if [ "${{ matrix.language }}" == "node" ]; then
+            cd backend/api && npm install
+          else
+            cd ai-services/proposal-generator && pip install -r requirements.txt
+          fi
+
+      - name: Run Tests
+        run: echo "Insert your test commands here"
